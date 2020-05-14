@@ -3,10 +3,10 @@ import { Text, View, TouchableOpacity } from "react-native";
 
 interface IFeedScreenProps {
   navigation: {
-    navigate: (string) => void;
+    navigate: (arg: string) => void;
   };
 }
-export default (props) => {
+export default (props: IFeedScreenProps) => {
   return (
     <View>
       <Text>Feed Screen</Text>
