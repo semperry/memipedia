@@ -2,10 +2,13 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
+import { dark } from "../styles/colors";
+
 import FeedScreen from "../screens/FeedScreen";
 import SearchScreen from "../screens/SearchScreen";
 import AccountScreen from "../screens/AccountScreen";
 import PostFormScreen from "../screens/PostFormScreen";
+import HeaderLogo from "../components/images/HeaderLogo";
 
 const AppStack = createStackNavigator(
   {
@@ -16,6 +19,13 @@ const AppStack = createStackNavigator(
   },
   {
     initialRouteName: "Feed",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: dark,
+      },
+      headerTintColor: "#fff",
+      headerTitle: () => <HeaderLogo />,
+    },
   }
 );
 
