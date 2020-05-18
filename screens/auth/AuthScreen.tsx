@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import axios from "axios";
 
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textFieldWrapper, textField } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
+
+const apiEndpoint =
+  "https://semperry.devcamp.space/memipedia/memipedia_user_token";
 
 export default () => {
   const [formToShow, setFormToShow] = useState("LOGIN");
@@ -34,6 +38,20 @@ export default () => {
     }
   };
 
+  const handleSubmit = () => {
+    const params = {
+      auth: {
+        email: email,
+        password: password,
+      },
+    };
+
+    axios
+      .post(apiEndpoint, params)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log("Error getting token", err));
+  };
+
   return (
     <View style={authScreenStyles.container}>
       <Text style={{ color: "white" }}>{headerText()}</Text>
@@ -61,6 +79,10 @@ export default () => {
 
       <TouchableOpacity onPress={handleAuthTypePress}>
         <Text style={{ color: "white" }}>{screenTypeText()}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={handleSubmit}>
+        <Text style={{ color: "white" }}>{headerText()}</Text>
       </TouchableOpacity>
     </View>
   );
