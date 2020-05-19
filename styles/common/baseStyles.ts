@@ -4,7 +4,13 @@ import { primary } from "../colors";
 
 export default StyleSheet.create({
 	container: {
-		width: "100%",
+		height: "100%",
 		backgroundColor: primary,
+	},
+	screen: {
+		height: "100%",
+	},
+	containerWithBottomTabBar: {
+		marginBottom: 80,
 	},
 });
