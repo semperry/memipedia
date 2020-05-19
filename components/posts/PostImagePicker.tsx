@@ -11,6 +11,19 @@ interface IPostImagePickerProps {
 export default (props: IPostImagePickerProps) => {
 	const [image, setImage] = useState(null);
 
+	useEffect(() => {
+		getPermissionAsync();
+	}, []);
+
+	const getPermissionAsync = async () => {
+		if (Constants.platform?.ios) {
+			const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+			if (status !== "granted") {
+				alert("Sorry, we need camera roll permissions to make this work!");
+			}
+		}
+	};
+
 	const pickImage = async () => {
 		try {
 			let result: any = await ImagePicker.launchImageLibraryAsync({
@@ -27,19 +40,6 @@ export default (props: IPostImagePickerProps) => {
 			console.log(result);
 		} catch (E) {
 			console.log(E);
-		}
-	};
-
-	useEffect(() => {
-		getPermissionAsync();
-	}, []);
-
-	const getPermissionAsync = async () => {
-		if (Constants.platform?.ios) {
-			const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-			if (status !== "granted") {
-				alert("Sorry, we need camera roll permissions to make this work!");
-			}
 		}
 	};
 

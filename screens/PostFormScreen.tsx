@@ -14,6 +14,25 @@ export default (props: IPostFormScreenProps) => {
 	const [content, setContent] = useState("");
 	const [postImage, setPostImage] = useState(null);
 
+	const buildForm = () => {
+		let formData = new FormData();
+
+		formData.append("post[name]", name);
+		formData.append("posta[content]", content);
+
+		const uriParts = postImage.split(".");
+		const fileType = uriParts[uriParts.length - 1];
+
+		formData.append("post[post_image]", {
+			// @ts-ignore
+			uri: postImage,
+			name: `photo.${fileType}`,
+			type: `image/${fileType}`,
+		});
+
+		return formData;
+	};
+
 	return (
 		<View style={{ height: "100%" }}>
 			<TextInput
