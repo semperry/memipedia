@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, Text } from "react-native";
+import { View, TextInput } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import PostImagePicker from "../components/posts/PostImagePicker";
@@ -15,6 +15,7 @@ export default (props: IPostFormScreenProps) => {
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
 	const [postImage, setPostImage] = useState(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const buildForm = () => {
 		let formData = new FormData();
@@ -37,6 +38,7 @@ export default (props: IPostFormScreenProps) => {
 
 	const handleSubmit = async () => {
 		const token = await SecureStore.getItemAsync("memipedia_secure_token");
+		setIsSubmitting(true);
 
 		api
 			.post("memipedia_posts", buildForm(), {
@@ -48,9 +50,11 @@ export default (props: IPostFormScreenProps) => {
 			})
 			.then((res) => {
 				console.log("res from creating new post", res.data);
+				setIsSubmitting(false);
 			})
 			.catch((err) => {
 				console.log("error from creating new post", err);
+				setIsSubmitting(false);
 			});
 	};
 
@@ -74,11 +78,11 @@ export default (props: IPostFormScreenProps) => {
 				<PostImagePicker setPostImage={setPostImage} />
 			</View>
 
-			<Button text="Submit" onPress={handleSubmit} />
-
-			<View>
-				<Text>{postImage ? postImage : null}</Text>
-			</View>
+			{isSubmitting ? (
+				<Button text="Submitting..." disabled />
+			) : (
+				<Button text="Submit" onPress={handleSubmit} />
+			)}
 		</View>
 	);
 };
