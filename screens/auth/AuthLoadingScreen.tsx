@@ -31,8 +31,6 @@ export default (props: IAuthLoadingScreenProps) => {
           },
         })
         .then((res) => {
-          console.log("response from checkLogin", res.data);
-
           if (res.data.memipedia_user) {
             setCurrentUser(res.data.memipedia_user);
             props.navigation.navigate("App");
