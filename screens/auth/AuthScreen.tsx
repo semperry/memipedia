@@ -42,9 +42,7 @@ export default (props: IAuthScreenInterfaceProps) => {
     }
   };
 
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-
+  const handleLogin = () => {
     const params = {
       auth: {
         email: email,
@@ -52,7 +50,7 @@ export default (props: IAuthScreenInterfaceProps) => {
       },
     };
 
-    API.post("/memipedia_user_token", params)
+    API.post("memipedia_user_token", params)
       .then((res) => {
         if (res.data.jwt) {
           props.navigation.navigate("Feed");
@@ -69,6 +67,40 @@ export default (props: IAuthScreenInterfaceProps) => {
           "It looks like you typed in the wrong email or password, please try again"
         );
       });
+  };
+
+  const handleRegistration = () => {
+    const params = {
+      user: {
+        email: email,
+        password: password,
+      },
+    };
+
+    API.post("memipedia_users", params)
+      .then((res) => {
+        console.log("create user res", res.data);
+        if (res.data.memipedia_user) {
+          props.navigation.navigate("Feed");
+        } else {
+          alert("Error creating user account");
+          setIsSubmitting(false);
+        }
+      })
+      .catch((err) => {
+        setIsSubmitting(false);
+        alert("Error creating user account");
+      });
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitting(true);
+
+    if (formToShow === "LOGIN") {
+      handleLogin();
+    } else if (formToShow === "REGISTER") {
+      handleRegistration();
+    }
   };
 
   return (
