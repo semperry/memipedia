@@ -6,12 +6,14 @@ const { textFieldWrapper, textField } = textInputStyles;
 import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
 import API from "../../utils/api";
 import Button from "../../components/helpers/buttons/Button";
+import { formatErrors } from "../../utils/textFormatters";
 
 interface IAuthScreenInterfaceProps {
   navigation: {
     navigate: (arg: string) => void;
   };
 }
+
 export default (props: IAuthScreenInterfaceProps) => {
   const [formToShow, setFormToShow] = useState("LOGIN");
   const [email, setEmail] = useState("");
@@ -83,13 +85,12 @@ export default (props: IAuthScreenInterfaceProps) => {
         if (res.data.memipedia_user) {
           props.navigation.navigate("Feed");
         } else {
-          alert("Error creating user account");
+          alert(`Error creating account: ${formatErrors(res.data.errors)}`);
           setIsSubmitting(false);
         }
       })
       .catch((err) => {
         setIsSubmitting(false);
-        alert("Error creating user account");
       });
   };
 
