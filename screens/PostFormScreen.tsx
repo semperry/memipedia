@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { View, TextInput, Text } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 import PostImagePicker from "../components/posts/PostImagePicker";
 import Button from "../components/helpers/buttons/Button";
+import api from "../utils/api";
 
 interface IPostFormScreenProps {
 	navigation: {
@@ -18,7 +20,7 @@ export default (props: IPostFormScreenProps) => {
 		let formData = new FormData();
 
 		formData.append("post[name]", name);
-		formData.append("posta[content]", content);
+		formData.append("post[content]", content);
 
 		const uriParts = postImage.split(".");
 		const fileType = uriParts[uriParts.length - 1];
@@ -31,6 +33,25 @@ export default (props: IPostFormScreenProps) => {
 		});
 
 		return formData;
+	};
+
+	const handleSubmit = async () => {
+		const token = await SecureStore.getItemAsync("memipedia_secure_token");
+
+		api
+			.post("memipedia_posts", buildForm(), {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					Accept: "application/json",
+					"Content-Type": "multipart/form-data",
+				},
+			})
+			.then((res) => {
+				console.log("res from creating new post", res.data);
+			})
+			.catch((err) => {
+				console.log("error from creating new post", err);
+			});
 	};
 
 	return (
@@ -53,7 +74,7 @@ export default (props: IPostFormScreenProps) => {
 				<PostImagePicker setPostImage={setPostImage} />
 			</View>
 
-			<Button text="Submit" onPress={() => console.log("submitting....")} />
+			<Button text="Submit" onPress={handleSubmit} />
 
 			<View>
 				<Text>{postImage ? postImage : null}</Text>
