@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import authScreenStyles from "../../styles/stacks/auth/authScreenStyles";
 import API from "../../utils/api";
 import Button from "../../components/helpers/buttons/Button";
 import { formatErrors } from "../../utils/textFormatters";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 interface IAuthScreenInterfaceProps {
   navigation: {
@@ -26,6 +27,8 @@ export default (props: IAuthScreenInterfaceProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { getUser, currentUser } = useContext(CurrentUserContext);
 
   const screenTypeText = () => {
     if (formToShow === "LOGIN") {
@@ -66,6 +69,7 @@ export default (props: IAuthScreenInterfaceProps) => {
             "memipedia_secure_token",
             res.data.jwt
           );
+          getUser();
           props.navigation.navigate("Feed");
         } else {
           alert(
@@ -94,7 +98,7 @@ export default (props: IAuthScreenInterfaceProps) => {
       .then((res) => {
         console.log("create user res", res.data);
         if (res.data.memipedia_user) {
-          props.navigation.navigate("Feed");
+          handleLogin();
         } else {
           alert(`Error creating account: ${formatErrors(res.data.errors)}`);
           setIsSubmitting(false);
@@ -150,6 +154,10 @@ export default (props: IAuthScreenInterfaceProps) => {
       ) : (
         <Button text={buttonText()} onPress={handleSubmit} />
       )}
+
+      <View>
+        <Text style={{ color: "white" }}>{JSON.stringify(currentUser)}</Text>
+      </View>
     </ScrollView>
   );
 };

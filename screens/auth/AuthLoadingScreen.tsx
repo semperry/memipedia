@@ -14,8 +14,6 @@ interface IAuthLoadingScreenProps {
 export default (props: IAuthLoadingScreenProps) => {
   const { setCurrentUser } = useContext(CurrentUserContext);
 
-  console.log("in check login in the auth loading screen");
-
   useEffect(() => {
     checkLogin();
   }, []);
