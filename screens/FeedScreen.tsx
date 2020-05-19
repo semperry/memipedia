@@ -30,7 +30,6 @@ export default (props: IFeedScreenProps) => {
 				},
 			})
 			.then((res) => {
-				console.log("res from posts", res.data);
 				setPosts(res.data.memipedia_posts);
 				setIsLoading(false);
 			})

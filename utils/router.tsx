@@ -11,47 +11,54 @@ import PostFormScreen from "../screens/PostFormScreen";
 import HeaderLogo from "../components/images/HeaderLogo";
 import AuthScreen from "../screens/auth/AuthScreen";
 import AuthLoadingScreen from "../screens/auth/AuthLoadingScreen";
+import PostDetailScreen from "../screens/PostDetailScreen";
 
 const AppStack = createStackNavigator(
-  {
-    Feed: FeedScreen,
-    Search: SearchScreen,
-    Account: AccountScreen,
-    PostForm: PostFormScreen,
-  },
-  {
-    initialRouteName: "Feed",
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: dark,
-      },
-      headerTintColor: "#fff",
-      headerTitle: () => <HeaderLogo />,
-    },
-  }
+	{
+		Feed: FeedScreen,
+		Search: SearchScreen,
+		Account: AccountScreen,
+		PostForm: PostFormScreen,
+		PostDetail: {
+			screen: PostDetailScreen,
+			navigationOptions: {
+				headerLeft: null,
+			},
+		},
+	},
+	{
+		initialRouteName: "Feed",
+		defaultNavigationOptions: {
+			headerStyle: {
+				backgroundColor: dark,
+			},
+			headerTintColor: "#fff",
+			headerTitle: () => <HeaderLogo />,
+		},
+	}
 );
 
 const AuthStack = createStackNavigator(
-  {
-    Auth: AuthScreen,
-  },
-  {
-    initialRouteName: "Auth",
-    defaultNavigationOptions: {
-      headerShown: false,
-    },
-  }
+	{
+		Auth: AuthScreen,
+	},
+	{
+		initialRouteName: "Auth",
+		defaultNavigationOptions: {
+			headerShown: false,
+		},
+	}
 );
 
 export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      App: AppStack,
-      Auth: AuthStack,
-    },
-    {
-      initialRouteName: "AuthLoading",
-    }
-  )
+	createSwitchNavigator(
+		{
+			AuthLoading: AuthLoadingScreen,
+			App: AppStack,
+			Auth: AuthStack,
+		},
+		{
+			initialRouteName: "AuthLoading",
+		}
+	)
 );
