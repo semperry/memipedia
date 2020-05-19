@@ -1,5 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
+import AutoHeightImage from "react-native-auto-height-image";
+
+import postItemStyles from "../../styles/stacks/posts/postItemStyles";
 
 interface IPostItemProps {
 	post: {
@@ -10,10 +13,23 @@ interface IPostItemProps {
 }
 
 export default (props: IPostItemProps) => {
-	const { name } = props.post;
+	const { name, post_image_url } = props.post;
+
+	const img = () => {
+		// @ts-ignore
+		return (
+			<AutoHeightImage
+				width={Dimensions.get("window").width}
+				source={{ uri: post_image_url }}
+			/>
+		);
+	};
 	return (
-		<View>
-			<Text>{name}</Text>
+		<View style={postItemStyles.itemWrapper}>
+			<View style={postItemStyles.imageWrapper}>{img()}</View>
+			<View style={[postItemStyles.contentWrapper, postItemStyles.postHeading]}>
+				<Text style={postItemStyles.nameText}>{name}</Text>
+			</View>
 		</View>
 	);
 };

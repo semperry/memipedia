@@ -41,15 +41,17 @@ export default (props: IFeedScreenProps) => {
 
 	return (
 		<Container navigate={props.navigation.navigate}>
-			{isLoading ? (
-				<ActivityIndicator />
-			) : (
-				<ScrollView>
-					{posts.map((post: any) => (
-						<PostItem key={post.id} post={post} />
-					))}
-				</ScrollView>
-			)}
+			<View>
+				{isLoading ? (
+					<ActivityIndicator />
+				) : (
+					<ScrollView>
+						{posts.map((post: any) => (
+							<PostItem key={post.id} post={post} />
+						))}
+					</ScrollView>
+				)}
+			</View>
 		</Container>
 	);
 };
