@@ -28,7 +28,7 @@ export default (props: IAuthScreenInterfaceProps) => {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { getUser, currentUser } = useContext(CurrentUserContext);
+  const { getUser } = useContext(CurrentUserContext);
 
   const screenTypeText = () => {
     if (formToShow === "LOGIN") {
@@ -139,6 +139,7 @@ export default (props: IAuthScreenInterfaceProps) => {
           style={textInputStyles.textField}
           autoCapitalize="none"
           secureTextEntry={true}
+          onSubmitEditing={handleSubmit}
         />
       </View>
 
@@ -154,10 +155,6 @@ export default (props: IAuthScreenInterfaceProps) => {
       ) : (
         <Button text={buttonText()} onPress={handleSubmit} />
       )}
-
-      <View>
-        <Text style={{ color: "white" }}>{JSON.stringify(currentUser)}</Text>
-      </View>
     </ScrollView>
   );
 };
