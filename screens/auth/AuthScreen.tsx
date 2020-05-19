@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 import textInputStyles from "../../styles/forms/textInputStyles";
 const { textFieldWrapper, textField } = textInputStyles;
@@ -59,8 +60,12 @@ export default (props: IAuthScreenInterfaceProps) => {
     };
 
     API.post("memipedia_user_token", params)
-      .then((res) => {
+      .then(async (res) => {
         if (res.data.jwt) {
+          await SecureStore.setItemAsync(
+            "memipedia_secure_token",
+            res.data.jwt
+          );
           props.navigation.navigate("Feed");
         } else {
           alert(
