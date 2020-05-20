@@ -22,7 +22,7 @@ const AppStack = createStackNavigator(
 		PostDetail: {
 			screen: PostDetailScreen,
 			navigationOptions: {
-				headerLeft: null,
+				headerLeft: () => null,
 			},
 		},
 	},

@@ -16,8 +16,8 @@ export default (props: IPostItemProps) => {
 	const { name, post_image_url } = props.post;
 
 	const img = () => {
-		// @ts-ignore
 		return (
+			// @ts-ignore
 			<AutoHeightImage
 				width={Dimensions.get("window").width}
 				source={{ uri: post_image_url }}
@@ -27,6 +27,7 @@ export default (props: IPostItemProps) => {
 	return (
 		<View style={postItemStyles.itemWrapper}>
 			<View style={postItemStyles.imageWrapper}>{img()}</View>
+
 			<View style={[postItemStyles.contentWrapper, postItemStyles.postHeading]}>
 				<Text style={postItemStyles.nameText}>{name}</Text>
 			</View>
