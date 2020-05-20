@@ -33,6 +33,7 @@ const AppStack = createStackNavigator(
 				backgroundColor: dark,
 			},
 			headerTintColor: "#fff",
+			headerTitleAlign: "center",
 			headerTitle: () => <HeaderLogo />,
 		},
 	}

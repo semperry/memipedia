@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-	Text,
-	View,
-	TextInput,
-	TouchableOpacity,
-	ActivityIndicator,
-} from "react-native";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -73,9 +67,7 @@ export default (props: ISearchScreenProps) => {
 	);
 
 	const queryRenderer = () => {
-		if (isLoading) {
-			return <ActivityIndicator />;
-		} else if (emptyQuery) {
+		if (emptyQuery) {
 			return (
 				<View style={{ paddingRight: 15, paddingLeft: 15 }}>
 					<Text style={{ color: "white" }}>
@@ -84,7 +76,14 @@ export default (props: ISearchScreenProps) => {
 				</View>
 			);
 		} else if (posts && posts.length > 0) {
-			return <PostList posts={posts} navigate={props.navigation.navigate} />;
+			return (
+				<PostList
+					posts={posts}
+					navigate={props.navigation.navigate}
+					getPosts={handleSearch}
+					isLoading={isLoading}
+				/>
+			);
 		}
 	};
 
