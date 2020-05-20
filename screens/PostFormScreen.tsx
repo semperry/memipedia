@@ -27,6 +27,13 @@ export default (props: IPostFormScreenProps) => {
 	const [postImage, setPostImage] = useState(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
+	const setBaseState = () => {
+		setName("");
+		setContent("");
+		setPostImage(null);
+		setIsSubmitting(false);
+	};
+
 	const buildForm = () => {
 		let formData = new FormData();
 
@@ -59,14 +66,14 @@ export default (props: IPostFormScreenProps) => {
 				},
 			})
 			.then((res) => {
-				console.log("res from creating new post", res.data);
-				setIsSubmitting(false);
-
 				if (res.data.memipedia_post) {
+					setBaseState();
 					props.navigation.navigate("PostDetail", {
 						post: res.data.memipedia_post,
 					});
 				} else {
+					setIsSubmitting(false);
+
 					alert(
 						"There was an issue creating the post, all fields are required, and only images are allowed"
 					);
