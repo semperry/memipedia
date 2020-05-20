@@ -8,9 +8,10 @@ import api from "../utils/api";
 
 interface IPostFormScreenProps {
 	navigation: {
-		navigate: (arg: string) => void;
+		navigate: (screenName: string, post: any) => void;
 	};
 }
+
 export default (props: IPostFormScreenProps) => {
 	const [name, setName] = useState("");
 	const [content, setContent] = useState("");
@@ -51,6 +52,16 @@ export default (props: IPostFormScreenProps) => {
 			.then((res) => {
 				console.log("res from creating new post", res.data);
 				setIsSubmitting(false);
+
+				if (res.data.memipedia_post) {
+					props.navigation.navigate("PostDetail", {
+						post: res.data.memipedia_post,
+					});
+				} else {
+					alert(
+						"There was an issue creating the post, all fields are required, and only images are allowed"
+					);
+				}
 			})
 			.catch((err) => {
 				console.log("error from creating new post", err);
