@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 import Container from "../components/layouts/Container";
+import api from "../utils/api";
 
 interface ISearchScreenProps {
 	navigation: {
@@ -11,8 +13,20 @@ interface ISearchScreenProps {
 export default (props: ISearchScreenProps) => {
 	const [query, setQuery] = useState("");
 
-	const handleSearch = () => {
-		console.log("Searching for", query);
+	const handleSearch = async () => {
+		const token = await SecureStore.getItemAsync("memipedia_secure_token");
+
+		const params = { query };
+
+		const headers = { Authorization: `Bearer: ${token}` };
+
+		api
+			.get("memipedia_queries", {
+				params,
+				headers,
+			})
+			.then((res) => console.log("res from query", res.data))
+			.catch((err) => console.log("error in query", err));
 	};
 
 	const searchBar = (
